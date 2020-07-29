@@ -1,0 +1,59 @@
+1, 9:
+CREATE TABLE students (
+	id serial NOT NULL,
+	name text NOT NULL,
+	s_passport integer NOT NULL,
+	n_passport integer NOT NULL,
+	PRIMARY KEY (id),
+	CONSTRAINT passport UNIQUE (s_passport, n_passport)
+);
+
+2:
+CREATE TABLE subjects (
+	id serial NOT NULL,
+	sub_name text NOT NULL,
+	PRIMARY KEY(id)
+);
+
+3, 4:
+CREATE TABLE progress (
+	id serial NOT NULL,
+	id_student integer NOT NULL,
+	id_subject integer NOT NULL,
+	score integer NOT NULL CHECK(score >= 2 AND score <= 5),
+	PRIMARY KEY (id)
+);
+
+5:
+SELECT st.name AS student_name 
+FROM progress AS p 
+INNER JOIN students AS st ON st.id = p.id_student 
+INNER JOIN subjects AS sub ON sub.id = p.id_subject 
+WHERE sub.sub_name = 'ABC1' AND p.score > 3;
+
+6:
+DELETE FROM progress
+WHERE id_student = (SELECT id FROM students WHERE name = 'BOB');
+DELETE FROM students 
+WHERE name = 'BOB';
+
+7:
+SELECT AVG(p.score) AS avg_score
+FROM progress AS p
+INNER JOIN subjects AS sub ON sub.id = p.id_subject
+WHERE sub.sub_name = 'ABC2';
+
+8:
+SELECT AVG(p.score) AS avg_score 
+FROM progress AS p 
+INNER JOIN students AS st ON st.id = p.id_student 
+WHERE st.name = 'BOB';
+
+10:
+SELECT sub.sub_name, count(*) as count_students
+FROM progress AS p
+INNER JOIN subjects AS sub ON sub.id = p.id_student
+WHERE p.score >= 3
+GROUP BY sub.sub_name
+ORDER BY count_students
+DESC LIMIT 3;
