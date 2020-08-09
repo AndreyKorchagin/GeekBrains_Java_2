@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col"Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b : ${goods}">
+            <td th:text="${b.id}"></td>
+            <td th:text="${b.goodsName}"></td>
+            <td th:text="${b.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="button" class="btn btn-success" onclick="history.back();" value="Назад"/>
+</body>
+</html>
