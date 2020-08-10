@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Goods Edit page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+  <div th:replace="~{navigation :: navigation(AllGoods)}"/>
+    <h4>Фильтр</h4>
+    <form th:action="@{'/goods/all'}" method="get">
+        <div class="form-group">
+            <label>Максимальная цена товара</label>
+            <input th:value="${param.maxPrice != null ? param.maxPrice : null}" type="number" class="form-control form-control-sm" name="maxPrice">
+        </div>
+        <button type="submit" class="btn btn-secondary">Применить</button>
+    </form>
+    <h4>Список товаров</h4>
+    <span th:unless="${goods.size() > 0}">товаров пока нет!</span>
+    <table class="table table-striped" th:if="${goods.size() > 0}">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>GoodsName</td>
+            <td>Price</td>
+            <td>Действия</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="g : ${goods}">
+            <td th:text="${g.id}"></td>
+            <td th:text="${g.goodsName}"></td>
+            <td th:text="${g.price}"></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/goods/remove/' + ${g.id}}">Удалить</a>
+                <a class="btn btn-secondary" th:href="@{'/goods/edit/' + ${g.id}}">Редактировать</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h4>Добавить товар</h4>
+    <form th:action="@{'/goods/add'}" method="post">
+        <div class="form-group">
+            <label>GoodsName</label>
+            <input type="text" class="form-control form-control-sm" name="goodsName">
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input type="number" class="form-control form-control-sm" name="price">
+        </div>
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+</div>
+</body>
+</html>

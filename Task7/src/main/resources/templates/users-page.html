@@ -2,42 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users page</title>
+    <title>Users Edit page</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
+
 <body>
+<div class="container">
+  <div th:replace="~{navigation :: navigation(AllUsers)}"/>
+    <h4>Фильтр</h4>
+    <form th:action="@{'/users/all'}" method="get">
+        <div class="form-group">
+            <label>Максимальный возраст пользователя</label>
+            <input th:value="${param.maxAge != null ? param.maxAge : null}" type="number" class="form-control form-control-sm" name="maxAge">
+        </div>
+        <button type="submit" class="btn btn-secondary">Применить</button>
+    </form>
     <h4>Список пользователей</h4>
-    <table class="table table-striped">
+    <span th:unless="${users.size() > 0}">Поьзователей пока нет!</span>
+    <table class="table table-striped" th:if="${users.size() > 0}">
         <thead>
-            <tr>
-                <td>Id</td>
-                <td>UserName</td>
-                <td>Age</td>
-            </tr>
+        <tr>
+            <td>Id</td>
+            <td>UserName</td>
+            <td>Age</td>
+            <td>Действия</td>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="u : ${users}">
-                <td th:text="${u.id}"></td>
-                <td th:text="${u.userName}"></td>
-                <td th:text="${u.age}"></td>
-            </tr>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"></td>
+            <td th:text="${u.userName}"></td>
+            <td th:text="${u.age}"></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/users/remove/' + ${u.id}}">Удалить</a>
+                <a class="btn btn-secondary" th:href="@{'/users/edit/' + ${u.id}}">Редактировать</a>
+            </td>
+        </tr>
         </tbody>
     </table>
     <h4>Добавить пользователя</h4>
     <form th:action="@{'/users/add'}" method="post">
         <div class="form-group">
             <label>UserName</label>
-            <input class="form-control form-control-sm" name="name">
+            <input type="text" class="form-control form-control-sm" name="userName">
         </div>
         <div class="form-group">
             <label>Age</label>
-            <input class="form-control form-control-sm" name="age">
+            <input type="number" class="form-control form-control-sm" name="age">
         </div>
         <button type="submit" class="btn btn-primary">Создать</button>
     </form>
-
+</div>
 </body>
 </html>
