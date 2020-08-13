@@ -27,4 +27,8 @@ public class Book {
 
     @Column(name = "publish_year")
     private int publishYear;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre")
+    private Genre genre;
 }

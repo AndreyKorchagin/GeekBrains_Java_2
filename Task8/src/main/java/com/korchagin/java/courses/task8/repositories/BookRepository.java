@@ -1,6 +1,7 @@
 package com.korchagin.java.courses.task8.repositories;
 
 import com.korchagin.java.courses.task8.entityes.Book;
+import com.korchagin.java.courses.task8.entityes.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     @Query("select b.publishYear from Book b group by b.publishYear order by b.publishYear ASC")
     List<Integer> findAllPublishYear();
+
+//    @Query("select b.genry from Book b where b.genre")
+    List<Book> findAllByGenreEquals(Genre genre);
 }

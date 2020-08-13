@@ -1,6 +1,7 @@
 package com.korchagin.java.courses.task8.services;
 
 import com.korchagin.java.courses.task8.entityes.Book;
+import com.korchagin.java.courses.task8.entityes.Genre;
 import com.korchagin.java.courses.task8.exceptions.ResourceNotFoundException;
 import com.korchagin.java.courses.task8.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.awt.geom.GeneralPath;
 import java.util.List;
 
 @Service
@@ -42,6 +44,10 @@ public class BookService {
 
     public List<Integer> findAllPublishYear(){
         return bookRepository.findAllPublishYear();
+    }
+
+    public List<Book> findAllByGenreEquals(Genre genre){
+        return bookRepository.findAllByGenreEquals(genre);
     }
 
 }

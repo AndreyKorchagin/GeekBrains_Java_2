@@ -1,10 +1,13 @@
 package com.korchagin.java.courses.task8.utils;
 
 import com.korchagin.java.courses.task8.entityes.Book;
+import com.korchagin.java.courses.task8.entityes.Genre;
 import com.korchagin.java.courses.task8.repositories.specifications.BookSpecifications;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -25,6 +28,12 @@ public class BookFilter {
         }
         if (params.containsKey("year")){
             spec = spec.and(BookSpecifications.publishYearEgual(Integer.parseInt(params.get("year"))));
+        }
+        if (params.containsKey("genre")){
+            List<String> listParams = Arrays.asList(params.get("genre").split("-"));
+            for (String s: listParams) {
+                spec = spec.or(BookSpecifications.genreEqual(Genre.valueOf(s)));
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.korchagin.java.courses.task8.repositories.specifications;
 
 import com.korchagin.java.courses.task8.entityes.Book;
+import com.korchagin.java.courses.task8.entityes.Genre;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecifications {
@@ -19,4 +20,9 @@ public class BookSpecifications {
     public static Specification<Book> publishYearEgual(int year){
         return (Specification<Book>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("publishYear"), year);
     }
+
+    public static Specification<Book> genreEqual(Genre genre){
+        return (Specification<Book>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("genre"), genre);
+    }
+
 }

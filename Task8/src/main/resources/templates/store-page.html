@@ -23,20 +23,32 @@
 <!--        </div>-->
 <!--        <button type="submit" class="btn btn-primary">Применить</button>-->
 <!--    </form>-->
-    <form class="form-inline" method="post" th:object="${books}">
-        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Preference</label>
-        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-            <option selected>Choose Publish Year</option>
-            <option th:each="y : ${years}" th:value="${y}" th:text="${y}"/>
+    <form class="form-inline" method="post">
+        <label class="my-1 mr-2" >Year</label>
+        <select class="custom-select my-1 mr-sm-2" id="years" name="years">
+            <option th:value="zero" selected>Reset Filter</option>
+            <option th:each="y : ${years}"
+                    th:value="${y}"
+                    th:text="${y}"
+                    th:selected="${y.toString() == currentYear}"/>
         </select>
 
-        <div class="custom-control custom-checkbox my-1 mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="customControlInline">
-            <label class="custom-control-label" for="customControlInline">Remember my preference</label>
+<!--        <label class="my-1 mr-2" >Genre</label>-->
+<!--        <select class="custom-select my-1 mr-sm-2" id="genre" name="genre">-->
+<!--            <option th:value="zero" selected>Reset Filter</option>-->
+<!--            <option th:each="g : ${genre}"-->
+<!--                    th:value="${g}"-->
+<!--                    th:text="${g.genreName}"-->
+<!--                    th:selected="${g.toString() == currentGenre}"/>-->
+<!--        </select>-->
+        <div class="custom-control custom-checkbox my-1 mr-sm-2" th:each="g : ${genre}">
+            <input type="checkbox" class="custom-control-input" th:id="${g}" th:name="genre" th:value="${g}">
+            <label class="custom-control-label"
+                    th:for="${g}"
+                    th:text="${g.genreName}"/>
         </div>
 
         <button type="submit" class="btn btn-primary my-1">Submit</button>
-<!--        <button type="submit" class="btn btn-primary my-1">Submit</button>-->
     </form>
 
     <br>
@@ -49,6 +61,7 @@
             <td>Описание</td>
             <td>Цена</td>
             <td>Год издания</td>
+            <td>Жанр</td>
         </tr>
         </thead>
         <tbody>
@@ -57,6 +70,7 @@
             <td th:text="${b.description}"></td>
             <td th:text="${b.price}"></td>
             <td th:text="${b.publishYear}"></td>
+            <td th:text="${b.genre.genreName}"></td>
         </tr>
         </tbody>
     </table>
