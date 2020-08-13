@@ -11,10 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/books")
@@ -36,46 +33,46 @@ public class BookController {
         model.addAttribute("years", bookService.findAllPublishYear());
         model.addAttribute("currentYear", params.get("year") != null ? params.get("year") : 0);
         model.addAttribute("genre", Genre.values());
-//        model.addAttribute("currentGenre", params.get("genre") != null ? params.get("genre") : null);
-//        System.out.println(params.get("genre") != null ? params.get("genre") : null);
-
-//        for (Map<String, String> m: params) {
-//            System.out.println();
-//        }
-        System.out.println("PARAM = " + params);
         return "store-page";
     }
 
     @PostMapping
     public String showAllBooksWithPublishYear(@Validated String years, @Validated String genre){
-        List<String> listGenre = new ArrayList<String>();
         StringBuilder stringBuilder = new StringBuilder();
-        System.out.println(genre);
+        List<String> listGenre = new ArrayList<>();
 
-        if (!years.equals("zero") && genre != null) {
-            System.out.println("111111");
-            listGenre = Arrays.asList(genre.split(","));
-            for (String s :  listGenre) {
-                stringBuilder.append(s).append("-");
+        if (!years.equals("zero")){
+            stringBuilder.append("redirect:/books?year=").append(years);
+            if (genre != null){
+                listGenre = Arrays.asList(genre.split(","));
+                stringBuilder.append("&genre=");
+                if (listGenre.size() >= 2){
+                    for (int i = 1; i < listGenre.size(); i++) {
+                        stringBuilder.append(listGenre.get(i)).append("-");
+                    }
+                    stringBuilder.setLength(stringBuilder.length() - 1);
+                } else {
+                    stringBuilder.append(listGenre.get(0));
+                }
             }
-            stringBuilder.setLength(stringBuilder.length() - 1);
-
-            return new StringBuilder("redirect:/books?year=").append(years).append("&genre=").append(stringBuilder).toString();
-        }
-        if (years.equals("zero") && genre != null){
-            System.out.println("22222");
-            listGenre = Arrays.asList(genre.split(","));
-            stringBuilder.append("redirect:/books?genre=");
-            for (String s: listGenre) {
-                stringBuilder.append(s).append("-");
-            }
-            stringBuilder.setLength(stringBuilder.length() - 1);
-            System.out.println("SB = " + stringBuilder);
-//            return new StringBuilder("redirect:/books?genre=").append(listGenre.get(0)).toString();
+            System.out.println(stringBuilder);
             return stringBuilder.toString();
         }
-        System.out.println("G = " + genre);
-//        System.out.println(genre != null ? genre : "KO NULL");
+        if (genre != null){
+            listGenre = Arrays.asList(genre.split(","));
+            stringBuilder.append("redirect:/books?genre=");
+            if (listGenre.size() >= 2){
+                for (int i = 1; i < listGenre.size(); i++) {
+                    stringBuilder.append(listGenre.get(i)).append("-");
+                }
+                stringBuilder.setLength(stringBuilder.length() - 1);
+            } else {
+                stringBuilder.append(listGenre.get(0));
+                System.out.println(listGenre.get(0));
+            }
+            System.out.println("22 = " + stringBuilder);
+            return stringBuilder.toString();
+        }
         return "redirect:/books";
     }
 

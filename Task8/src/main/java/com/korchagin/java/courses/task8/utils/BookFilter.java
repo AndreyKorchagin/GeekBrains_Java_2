@@ -31,9 +31,11 @@ public class BookFilter {
         }
         if (params.containsKey("genre")){
             List<String> listParams = Arrays.asList(params.get("genre").split("-"));
+            Specification<Book> specOr = Specification.where(null);
             for (String s: listParams) {
-                spec = spec.or(BookSpecifications.genreEqual(Genre.valueOf(s)));
+                specOr = specOr.or(BookSpecifications.genreEqual(Genre.valueOf(s)));
             }
+            spec = spec.and(specOr);
         }
     }
 
