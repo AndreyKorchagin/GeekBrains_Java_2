@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Book store</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{navigation :: navigation(BookStore)}"/>
+
+    <h1>Магазин книг</h1>
+<!--    <br>-->
+<!--    <h4>Фильтр:</h4>-->
+<!--    <form th:action="@{'/all'}" method="get">-->
+<!--        <div class="form-group">-->
+<!--            <label>Максимальный размер</label>-->
+<!--            <input th:value="${param.maxSize != null ? param.maxSize : null}" type="number" class="form-control form-control-sm" name="maxSize">-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">Применить</button>-->
+<!--    </form>-->
+
+    <br>
+    <br>
+    <h4>Список книг:</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Название</td>
+            <td>Описание</td>
+            <td>Цена</td>
+            <td>Год издания</td>
+            <td>Действие</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b : ${books}">
+            <td th:text="${b.title}"></td>
+            <td th:text="${b.description}"></td>
+            <td th:text="${b.price}"></td>
+            <td th:text="${b.publishYear}"></td>
+            <td><a th:href="@{'/cart/' + ${b.id}}" class="btn btn-warning">Добавить в корзину</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
